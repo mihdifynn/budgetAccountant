@@ -15,7 +15,6 @@ function Home(props) {
   const budget = localStorage.getItem('budget');
   const used = localStorage.getItem('used');
   const usedToday = localStorage.getItem('usedToday');
-
   const dateObj = new Date();
   const month = dateObj.getMonth();
   const day = dateObj.getDate();
