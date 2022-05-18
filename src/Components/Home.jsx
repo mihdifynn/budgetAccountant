@@ -54,26 +54,46 @@ function Home(props) {
 
   if (props.reset) reset();
 
+  const round = num => {
+    const number = Math.floor(num);
+    let numStr = '';
+    if (number > 999) {
+      const numberString = number.toString();
+      for (let i = 0; i < numberString.length; i++) {
+        numStr += numberString[i];
+        if ((i + 1) === (numberString.length - 3) || (i + 1) === (numberString.length - 6)) numStr += ',';
+      }
+    } else {
+      return number;
+    }
+    return numStr;
+  }
+
   return (
     <Box sx={{ p: 3 }}>
       <Container maxWidth="md">
         <Box sx={{ p: 2 }}>
           <Button onClick={newBudget} variant="contained">New Budget</Button>
         </Box>
-        <Typography sx={{ p: 1 }} variant="subtitle2">
-          Total This Month: Rp. {budget}
+        <Typography sx={{ p: 1 }} variant="subtitle1">
+          Total This Month:<br />
+          <b>Rp. {round(budget)}</b>
         </Typography>
-        <Typography sx={{ p: 1 }} variant="subtitle2">
-          Remaining This Month: Rp. {remainingThisMonth}
+        <Typography sx={{ p: 1 }} variant="subtitle1">
+          Remaining This Month:<br />
+          <b>Rp. {round(remainingThisMonth)}</b>
         </Typography>
-        <Typography sx={{ p: 1 }} variant="subtitle2">
-          Budget Tomorrow: Rp. {budgetTomorrow}
+        <Typography sx={{ p: 1 }} variant="subtitle1">
+          Budget Tomorrow:<br />
+          <b>Rp. {round(budgetTomorrow)}</b>
         </Typography>
-        <Typography sx={{ p: 1 }} variant="subtitle2">
-          Remaining Today: Rp. {remainingToday-usedToday}
+        <Typography sx={{ p: 1 }} variant="subtitle1">
+          Used Today:<br />
+          <b>Rp. {round(usedToday)}</b>
         </Typography>
-        <Typography sx={{ p: 1 }} variant="subtitle2">
-          Used Today: Rp. {usedToday}
+        <Typography sx={{ p: 1 }} variant="subtitle1">
+          Remaining Today:<br />
+          <b>Rp. {round(remainingToday-usedToday)}</b>
         </Typography>
         <Box sx={{ p: 1 }}>
           <TextField fullWidth type="number" value={addUsedToday} onChange={e => setAddUsedToday(e.target.value)} label="Add used today" />
