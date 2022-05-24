@@ -42,13 +42,21 @@ function Home(props) {
     reset();
   }
 
-  const [addUsedToday, setAddUsedToday] = useState('');
+  const [addUsedToday, setAddUsedToday] = useState(null);
+  const [notes, setNotes] = useState('');
 
   const addUsed = ()=> {
+    if (!addUsedToday) return;
     const newUsedToday = +usedToday + +addUsedToday;
     const newUsed = +used + +addUsedToday;
     localStorage.setItem('usedToday', newUsedToday);
     localStorage.setItem('used', newUsed);
+    localStorage.setItem('add3', localStorage.getItem('add2'));
+    localStorage.setItem('notes3', localStorage.getItem('notes2'));
+    localStorage.setItem('add2', localStorage.getItem('add1'));
+    localStorage.setItem('notes2', localStorage.getItem('notes1'));
+    localStorage.setItem('add1', addUsedToday);
+    localStorage.setItem('notes1', notes);
     window.location.reload();
   }
 
@@ -68,6 +76,12 @@ function Home(props) {
     }
     return numStr;
   }
+
+  const history = [
+    [localStorage.getItem('add1'), localStorage.getItem('notes1')],
+    [localStorage.getItem('add2'), localStorage.getItem('notes2')],
+    [localStorage.getItem('add3'), localStorage.getItem('notes3')]
+  ]
 
   return (
     <Box sx={{ p: 3 }}>
@@ -99,8 +113,22 @@ function Home(props) {
           <TextField fullWidth type="number" value={addUsedToday} onChange={e => setAddUsedToday(e.target.value)} label="Add used today" />
         </Box>
         <Box sx={{ p: 1 }}>
+          <TextField fullWidth type="text" value={notes} onChange={e => setNotes(e.target.value)} label="Notes" />
+        </Box>
+        <Box sx={{ p: 1 }}>
           <Button onClick={addUsed} variant="contained">Add</Button>
         </Box>
+        <Typography sx={{ p: 1, pt: 5 }} variant="subtitle1">
+          Last Added:
+          <ul>
+            {history.map((item, i) => (
+              <li key={i}>
+                <b>Rp. {round(item[0])}</b><br />
+                <i>{item[1] && item[1]}</i>
+              </li>
+            ))}
+          </ul>
+        </Typography>
       </Container>
     </Box>
   );
