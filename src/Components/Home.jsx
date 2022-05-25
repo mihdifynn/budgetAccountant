@@ -3,7 +3,11 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import { useState } from 'react';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import { useState, Fragment } from 'react';
 
 
 function Home(props) {
@@ -42,8 +46,17 @@ function Home(props) {
     reset();
   }
 
-  const [addUsedToday, setAddUsedToday] = useState(null);
+  const [addUsedToday, setAddUsedToday] = useState('');
   const [notes, setNotes] = useState('');
+  const [addNew, setAddNew] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
+
+  const add1 = localStorage.getItem('add1');
+  const add2 = localStorage.getItem('add2');
+  const add3 = localStorage.getItem('add3');
+  const notes1 = localStorage.getItem('notes1');
+  const notes2 = localStorage.getItem('notes2');
+  const notes3 = localStorage.getItem('notes3');
 
   const addUsed = ()=> {
     if (!addUsedToday) return;
@@ -51,10 +64,10 @@ function Home(props) {
     const newUsed = +used + +addUsedToday;
     localStorage.setItem('usedToday', newUsedToday);
     localStorage.setItem('used', newUsed);
-    localStorage.setItem('add3', localStorage.getItem('add2'));
-    localStorage.setItem('notes3', localStorage.getItem('notes2'));
-    localStorage.setItem('add2', localStorage.getItem('add1'));
-    localStorage.setItem('notes2', localStorage.getItem('notes1'));
+    localStorage.setItem('add3', add2 ? add2 : '');
+    localStorage.setItem('notes3', notes2 ? notes2 : '');
+    localStorage.setItem('add2', add1 ? add1 : '');
+    localStorage.setItem('notes2', notes1 ? notes1 : '');
     localStorage.setItem('add1', addUsedToday);
     localStorage.setItem('notes1', notes);
     window.location.reload();
@@ -78,15 +91,15 @@ function Home(props) {
   }
 
   const history = [
-    [localStorage.getItem('add1'), localStorage.getItem('notes1')],
-    [localStorage.getItem('add2'), localStorage.getItem('notes2')],
-    [localStorage.getItem('add3'), localStorage.getItem('notes3')]
+    add1 && [add1, notes1 ? notes1 : ''],
+    add2 && [add2, notes2 ? notes2 : ''],
+    add3 && [add3, notes3 ? notes3 : '']
   ]
 
   return (
     <Box sx={{ p: 3 }}>
       <Container maxWidth="md">
-        <Box sx={{ p: 2 }}>
+        <Box sx={{ py: 2, px: 1 }}>
           <Button onClick={newBudget} variant="contained">New Budget</Button>
         </Box>
         <Typography sx={{ p: 1 }} variant="subtitle1">
@@ -109,27 +122,63 @@ function Home(props) {
           Remaining Today:<br />
           <b>Rp. {round(remainingToday-usedToday)}</b>
         </Typography>
-        <Box sx={{ p: 1 }}>
-          <TextField fullWidth type="number" value={addUsedToday} onChange={e => setAddUsedToday(e.target.value)} label="Add used today" />
+        <Box sx={{ px: 1, pt: 3, textAlign: 'right' }}>
+          <Button
+            sx={{ float: 'left' }}
+            variant="outlined"
+            onClick={() => setAddNew(true)}>
+            Update
+          </Button>
+          <Button
+            variant="outlined"
+            onClick={() => setShowHistory(true)}>
+            History
+          </Button>
         </Box>
-        <Box sx={{ p: 1 }}>
-          <TextField fullWidth type="text" value={notes} onChange={e => setNotes(e.target.value)} label="Notes" />
-        </Box>
-        <Box sx={{ p: 1 }}>
-          <Button onClick={addUsed} variant="contained">Add</Button>
-        </Box>
-        <Typography sx={{ p: 1, pt: 5 }} variant="subtitle1">
-          Last Added:
-          <ul>
-            {history.map((item, i) => (
-              <li key={i}>
-                <b>Rp. {round(item[0])}</b><br />
-                <i>{item[1] && item[1]}</i>
-              </li>
-            ))}
-          </ul>
-        </Typography>
       </Container>
+      <Dialog
+        onClose={() => setAddNew(false)}
+        open={addNew}>
+        <DialogTitle>Update</DialogTitle>
+        <DialogContent>
+          <Box sx={{ p: 1 }}>
+            <TextField fullWidth type="number" value={addUsedToday} onChange={e => setAddUsedToday(e.target.value)} label="Add used today" />
+          </Box>
+          <Box sx={{ p: 1 }}>
+            <TextField fullWidth type="text" value={notes} onChange={e => setNotes(e.target.value)} label="Notes" />
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setAddNew(false)} variant="text">Cancel</Button>
+          <Button onClick={addUsed} variant="text">Add</Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        onClose={() => setShowHistory(false)}
+        open={showHistory}>
+        <DialogTitle>Last Added</DialogTitle>
+        <DialogContent>
+          <Typography sx={{ ml: -4 }} variant="subtitle1">
+            <ul>
+              {history.map((item, i) => (
+                <Fragment key={i}>
+                {item
+                  ? (
+                    <li>
+                      <b>Rp. {round(item[0])}</b><br />
+                      <i>{item[1] && item[1]}</i>
+                    </li>
+                  )
+                  : i === 0 && 'No history yet'}
+                </Fragment>
+                ))}
+            </ul>
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setShowHistory(false)} variant="text">Close</Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }
