@@ -100,63 +100,91 @@ function Home(props) {
     <Box sx={{ p: 3 }}>
       <Container maxWidth="md">
         <Box sx={{ py: 2, px: 1 }}>
-          <Button onClick={newBudget} variant="contained">New Budget</Button>
+          <Button
+            onClick={newBudget}
+            variant="contained"
+          >
+            New Budget
+          </Button>
         </Box>
+
         <Typography sx={{ p: 1 }} variant="subtitle1">
           Total This Month:<br />
           <b>Rp. {round(budget)}</b>
         </Typography>
+
         <Typography sx={{ p: 1 }} variant="subtitle1">
           Remaining This Month:<br />
           <b>Rp. {round(remainingThisMonth)}</b>
         </Typography>
+
         <Typography sx={{ p: 1 }} variant="subtitle1">
           Budget Tomorrow:<br />
           <b>Rp. {round(budgetTomorrow)}</b>
         </Typography>
+
         <Typography sx={{ p: 1 }} variant="subtitle1">
           Used Today:<br />
           <b>Rp. {round(usedToday)}</b>
         </Typography>
+
         <Typography sx={{ p: 1 }} variant="subtitle1">
           Remaining Today:<br />
           <b>Rp. {round(remainingToday-usedToday)}</b>
         </Typography>
+
         <Box sx={{ px: 1, pt: 3, textAlign: 'right' }}>
           <Button
             sx={{ float: 'left' }}
             variant="outlined"
-            onClick={() => setAddNew(true)}>
+            onClick={() => setAddNew(true)}
+          >
             Update
           </Button>
+
           <Button
             variant="outlined"
-            onClick={() => setShowHistory(true)}>
+            onClick={() => setShowHistory(true)}
+          >
             History
           </Button>
         </Box>
       </Container>
+
       <Dialog
         onClose={() => setAddNew(false)}
         open={addNew}>
         <DialogTitle>Update</DialogTitle>
+
         <DialogContent>
           <Box sx={{ p: 1 }}>
-            <TextField fullWidth type="number" value={addUsedToday} onChange={e => setAddUsedToday(e.target.value)} label="Add used today" />
+            <TextField
+              fullWidth
+              type="number"
+              value={addUsedToday}
+              onChange={e => setAddUsedToday(e.target.value)}
+              label="Add used today"
+            />
           </Box>
+
           <Box sx={{ p: 1 }}>
             <TextField fullWidth type="text" value={notes} onChange={e => setNotes(e.target.value)} label="Notes" />
           </Box>
         </DialogContent>
+
         <DialogActions>
           <Button onClick={() => setAddNew(false)} variant="text">Cancel</Button>
+
           <Button onClick={addUsed} variant="text">Add</Button>
         </DialogActions>
       </Dialog>
+
       <Dialog
         onClose={() => setShowHistory(false)}
-        open={showHistory}>
+        open={showHistory}
+      >
         <DialogTitle>Last Added</DialogTitle>
+
         <DialogContent>
           <Typography sx={{ ml: -4 }} variant="subtitle1">
             <ul>
@@ -175,8 +203,14 @@ function Home(props) {
             </ul>
           </Typography>
         </DialogContent>
+
         <DialogActions>
-          <Button onClick={() => setShowHistory(false)} variant="text">Close</Button>
+          <Button
+            onClick={() => setShowHistory(false)}
+            variant="text"
+          >
+            Close
+          </Button>
         </DialogActions>
       </Dialog>
     </Box>
