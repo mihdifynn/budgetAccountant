@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/budgetAccountant/static/css/main.da9dca2d.css",
-    "main.js": "/budgetAccountant/static/js/main.f751b706.js",
+    "main.js": "/budgetAccountant/static/js/main.4eafdd92.js",
     "static/js/787.8d1e083a.chunk.js": "/budgetAccountant/static/js/787.8d1e083a.chunk.js",
     "static/media/roboto-all-500-normal.woff": "/budgetAccountant/static/media/roboto-all-500-normal.52cb737b682eb9661ee1.woff",
     "static/media/roboto-all-700-normal.woff": "/budgetAccountant/static/media/roboto-all-700-normal.ef6d1d09b20b877fee4e.woff",
@@ -37,11 +37,11 @@
     "static/media/roboto-greek-ext-700-normal.woff2": "/budgetAccountant/static/media/roboto-greek-ext-700-normal.9674bc0ae12c2551d9d1.woff2",
     "index.html": "/budgetAccountant/index.html",
     "main.da9dca2d.css.map": "/budgetAccountant/static/css/main.da9dca2d.css.map",
-    "main.f751b706.js.map": "/budgetAccountant/static/js/main.f751b706.js.map",
+    "main.4eafdd92.js.map": "/budgetAccountant/static/js/main.4eafdd92.js.map",
     "787.8d1e083a.chunk.js.map": "/budgetAccountant/static/js/787.8d1e083a.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.da9dca2d.css",
-    "static/js/main.f751b706.js"
+    "static/js/main.4eafdd92.js"
   ]
 }

@@ -22,7 +22,9 @@ function Home() {
   const handleNewMain = () => {
     localStorage.setItem('mainBudget', newAmount);
     localStorage.setItem('mainUsed', 0);
-    newDay();
+    localStorage.setItem('today', day);
+    localStorage.setItem('usedToday', 0);
+    localStorage.setItem('budgetToday', newAmount / (remainingDays + 1));
     setReRender(prev => !prev);
     setOpenNewMain(false);
   }
@@ -57,7 +59,7 @@ function Home() {
     mainBudget: 0,
     mainUsed: 0,
     usedToday: 0,
-    remainingToday: 0,
+    // remainingToday: 0,
     budgetToday: 0,
 
     extraBudget: 0,
@@ -91,14 +93,13 @@ function Home() {
   const newDay = useCallback(() => {
     localStorage.setItem('today', day);
     localStorage.setItem('usedToday', 0);
-    localStorage.setItem('budgetToday', mainRemaining / (remainingDays + 1));
+    localStorage.setItem('budgetToday', +mainRemaining / (remainingDays + 1));
   }, [day, mainRemaining, remainingDays]);
 
   useEffect(() => {
     const mainBudget = localStorage.getItem('mainBudget'),
     mainUsed = localStorage.getItem('mainUsed'),
     usedToday = localStorage.getItem('usedToday'),
-    remainingToday = localStorage.getItem('remainingToday'),
     budgetToday = localStorage.getItem('budgetToday'),
     today = localStorage.getItem('today');
 
@@ -111,7 +112,7 @@ function Home() {
       mainBudget: mainBudget || 0,
       mainUsed: mainUsed || 0,
       usedToday: usedToday || 0,
-      remainingToday: remainingToday || 0,
+      // remainingToday: remainingToday || 0,
       budgetToday: budgetToday || 0,
 
       extraBudget: extraBudget || 0,
